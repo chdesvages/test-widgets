@@ -1,7 +1,19 @@
-# Computing and Numerics - Week 1 tutorial
+# Accordion widget for displaying solutions in Jupyter notebook
 
-The file `week01.ipynb` is the tutorial notebook for Week 1. Don't worry about the additional folders for the moment!
+Accordion widget for quick reveal/hide solution in Jupyter notebooks. Can be Python code, Markdown, or a mix of both.
 
-### Before the workshop
+The function `show()` in the module `show_solutions.py` reads the file `solutions.txt` which contains solutions to all exercises, and retrieves the solution tagged for a particular exercise to display it in an accordion widget. Run the top cell in the notebook to import the function, then use the command `show('exercise_tag')` to display the widget.
 
-Before your workshop on Wednesday, please go through the tutorial notebook up to (and including) section 2.1. If you are short on time, you can do the rest later.
+
+### Required
+
+- [ipywidgets](https://ipywidgets.readthedocs.io/en/latest/)
+- [nbconvert](https://nbconvert.readthedocs.io/en/latest/)
+
+
+### Export to HTML
+
+- Display all accordion widgets in the notebook by running the corresponding commands.
+- Save the widget state: in Jupyter Notebook, in the menu bar, select Widgets > Save Notebook Widget State.
+- Save and terminate the notebook (File > Close and Halt).
+- Run `nbconvert` to export the HTML file: `jupyter-nbconvert MWE.ipynb --to HTML --output MWE.html`

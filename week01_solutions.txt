@@ -11,38 +11,11 @@ print('Exercise 1')
 ###week01_ex2_end
 
 ###week01_ex3_start_py
-import numpy as np
-print(np.sqrt(2) * np.cos(2 * np.pi / 5))
-###week01_ex3_end
-
-###week01_ex5_start_py
-my_string = 'Some text characters of my choice.'
-m = 6
-n = 3
-
-print(my_string[m + n - 1])
-print(my_string[m - n - 1])
-###week01_ex5_end
-
-###week01_ex6_start_py
-u = 3
-v = 5
-
-# One possible way...
-same_sign = (u > 0 and v > 0) or (u < 0 and v < 0)
-print(same_sign)
-
-# Another way...
-same_sign = u * v > 0
-print(same_sign)
-###week01_ex6_end
-
-###week01_ex7_start_py
 x = 1.110223024625156e-16
 
 print(x == 0)
 print(x + 1 == 1)
-###week01_ex7_switch_md
+###week01_ex3_switch_md
 The value given is (just under) half of what we call $\epsilon$, or **machine epsilon** ---
 the distance between 1 and the next closest number in double-precision floating-point representation
 (i.e. using the `float` type).
@@ -69,7 +42,7 @@ Note that, in this system, there is no difference between the value of `1 + 0.00
 Numpy can display the value of $\epsilon$ (and other information about number objects) using `np.finfo()`
 ([documentation](https://numpy.org/devdocs/reference/generated/numpy.finfo.html#numpy-finfo)),
 try these commands:
-###week01_ex7_switch_py
+###week01_ex3_switch_py
 print(np.finfo(1.0))
 np.finfo(1.0).eps
-###week01_ex7_end
+###week01_ex3_end

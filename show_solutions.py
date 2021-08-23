@@ -1,21 +1,34 @@
-# Run inside Juypter notebook cell. Example use:
-# %run show_solutions.py week01_ex3
-# Shows a button to toggle solutions tagged with 'week01_ex3'
+# Module to create widgets revealing exercise solutions.
+# Example use in a notebook:
+#
+# import show_solutions
+# show_solutions.show('week01_ex1')
+#
+# Shows an accordion menu to reveal/hide solutions tagged with 'week01_ex1'
 # in the solutions script 'week01_solutions.txt'.
 
-def toggle_solutions(question):
-    # Import display functions
-    import ipywidgets as widgets
-    from IPython.display import display, Code, Markdown
-    
-    week = question.split('_')[0]
+# Import display functions
+import ipywidgets as widgets
+from IPython.display import display, Code, Markdown
 
-    # Create button
-    bt = widgets.Button(description='Reveal solution')
+def show(question):
+    '''
+    Displays solution to a particular question.
+    
+    Input:
+    question (str): string of the form 'weekXX_exY'
+    '''
+
+    week = question.split('_')[0]
 
     # Create output area for the solution
     sol_area = widgets.Output(layout={'border': '1px solid green'})
-    
+
+    # Create accordion
+    acc = widgets.Accordion(children=[sol_area], selected_index=None)
+    acc.set_title(0, 'Solution')
+
+    # Read solutions from file
     try:
         # Retrieve solution code from script, as a string
         with open(f'{week}_solutions.txt', 'r') as f:
@@ -50,41 +63,24 @@ def toggle_solutions(question):
                     else:
                         # Write line to current block
                         sol_block += l
-                        
+
     except FileNotFoundError:
         sol = 'Solutions not yet released!'
         out_format = {}
 
-    # Define how to display/hide the solution
-    def toggle_answer(question):
-        if bt.description == 'Reveal solution':
-            # Display solution and change button label
-            with sol_area:
-                if not out_format:
-                    print(sol)
-                else:
-                    for sol_block, fmt in zip(sol, out_format):
-                        if fmt == 'py':
-                            display(Code(data=sol_block, language='py'))
-                        elif fmt == 'md':
-                            display(Markdown(data=sol_block))
-                        else:
-                            print('Format not recognised...')
-            bt.description = 'Hide solution'
-        else:
-            # Hide solution and change button label
-            sol_area.clear_output()
-            bt.description = 'Reveal solution'
+    # Display solutions
+    if not out_format:
+        # Not yet released
+        print(sol)
+    else:
+        # Display block by block
+        for sol_block, fmt in zip(sol, out_format):
+            if fmt == 'py':
+                sol_area.append_display_data(Code(data=sol_block, language='py'))
+            elif fmt == 'md':
+                sol_area.append_display_data(Markdown(data=sol_block))
+            else:
+                sol_area.append_stdout(print('Format not recognised...'))
 
-    # When clicking the button, toggle solution
-    bt.on_click(toggle_answer)
-
-    # Show the button and the output area
-    display(bt)
-    display(sol_area)
-
-if __name__ == "__main__":
-    import sys
-    
-    # Create and display the widgets
-    toggle_solutions(sys.argv[1])
+        # Display the accordion
+        display(acc)
